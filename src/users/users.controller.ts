@@ -10,6 +10,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-users.dto';
+import { GetUserDto } from './dtos/get-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -28,14 +29,14 @@ export class UsersController {
   }
 
   @Get(':id')
-  getUser(@Param('id', ParseIntPipe) id: number | undefined) {
-    console.log(id, typeof id);
+  getUser(@Param() getUserDto: GetUserDto) {
+    console.log(getUserDto);
     return 'get user';
   }
 
   @Post()
-  updateUser(@Body() body: CreateUserDto) {
-    console.log('body', body);
+  updateUser(@Body() createUserDto: CreateUserDto) {
+    console.log('createUserDto', createUserDto);
     return 'update user';
   }
 }
