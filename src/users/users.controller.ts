@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Param, Post, Query } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  DefaultValuePipe,
+  Get,
+  Param,
+  ParseIntPipe,
+  Post,
+  Query,
+} from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -8,14 +17,17 @@ export class UsersController {
   //   }
 
   @Get()
-  getFilterUsers(@Query('limit') limit: any, @Query('offset') offset: any) {
+  getFilterUsers(
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+    @Query('offset', new DefaultValuePipe(5), ParseIntPipe) offset: number,
+  ) {
     console.log('limit', limit, 'offset', offset);
     return 'get filtered users';
   }
 
   @Get(':id')
-  getUser(@Param('id') id: any) {
-    console.log(id);
+  getUser(@Param('id', ParseIntPipe) id: number | undefined) {
+    console.log(id, typeof id);
     return 'get user';
   }
 
