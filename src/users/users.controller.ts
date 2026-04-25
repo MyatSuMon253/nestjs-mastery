@@ -6,11 +6,12 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  Put,
   Query,
-  ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-users.dto';
 import { GetUserDto } from './dtos/get-user.dto';
+import { PutUserDto } from './dtos/put-user.dto';
 
 @Controller('users')
 export class UsersController {
@@ -35,8 +36,15 @@ export class UsersController {
   }
 
   @Post()
-  updateUser(@Body() createUserDto: CreateUserDto) {
+  createUser(@Body() createUserDto: CreateUserDto) {
     console.log('createUserDto', createUserDto);
+    return 'create user';
+  }
+
+  @Put(':id')
+  updateUser(@Body() putUserDto: PutUserDto) {
+    console.log(putUserDto);
+
     return 'update user';
   }
 }
