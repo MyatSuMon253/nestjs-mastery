@@ -34,7 +34,7 @@ export class UsersController {
   }
 
   @Post()
-  updateUser(@Body(new ValidationPipe()) body: CreateUserDto) {
+  updateUser(@Body() body: CreateUserDto) {
     console.log('body', body);
     return 'update user';
   }
