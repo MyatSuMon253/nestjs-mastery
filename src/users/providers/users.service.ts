@@ -13,4 +13,12 @@ export class UsersService {
   public createUser(createUserDto: CreateUserDto) {
     return `${createUserDto.firstName}'s user account is created`;
   }
+
+  public findByUserId(userId: string) {
+    return {
+      id: userId,
+      name: 'myat',
+      email: 'myat@gmail.com',
+    };
+  }
 }
