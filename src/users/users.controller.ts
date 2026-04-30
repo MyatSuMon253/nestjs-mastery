@@ -12,13 +12,15 @@ import {
 import { CreateUserDto } from './dtos/create-users.dto';
 import { GetUserDto } from './dtos/get-user.dto';
 import { PutUserDto } from './dtos/put-user.dto';
+import { UsersService } from './providers/users.service';
 
 @Controller('users')
 export class UsersController {
-  //   @Get()
-  //   getUsers() {
-  //     return 'get all users';
-  //   }
+  constructor(private readonly usersService: UsersService) {}
+  @Get()
+  getUsers() {
+    return this.usersService.findAll();
+  }
 
   @Get()
   getFilterUsers(
@@ -37,8 +39,7 @@ export class UsersController {
 
   @Post()
   createUser(@Body() createUserDto: CreateUserDto) {
-    console.log('createUserDto', createUserDto);
-    return 'create user';
+    return this.usersService.createUser(createUserDto);
   }
 
   @Put(':id')
