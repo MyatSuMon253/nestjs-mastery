@@ -19,6 +19,13 @@ export class PostsController {
     return this.postsService.findAll(userId);
   }
 
+  @ApiOperation({
+    summary: 'Create a new blog post'
+  })
+  @ApiResponse({
+    status: 201,
+    description: "If you got 201 response, your post is created"
+  })
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
     console.log(createPostDto);
