@@ -9,9 +9,9 @@ import {
   Put,
   Query,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-users.dto';
-import { GetUserDto } from './dtos/get-user.dto';
-import { PutUserDto } from './dtos/put-user.dto';
+import { CreateUserDto } from './dtos/create.user.dto';
+import { GetUserDto } from './dtos/get.user.dto';
+import { PutUserDto } from './dtos/put.user.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 

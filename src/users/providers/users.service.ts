@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { CreateUserDto } from '../dtos/create-users.dto';
+import { CreateUserDto } from '../dtos/create.user.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
-import { PutUserDto } from '../dtos/put-user.dto';
+import { PutUserDto } from '../dtos/put.user.dto';
 
 @Injectable()
 export class UsersService {
