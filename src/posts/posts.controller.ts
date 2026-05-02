@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { PostsService } from './providers/posts.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create.post.dto';
+import { PatchPostDto } from './dtos/patch.post.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -20,14 +21,26 @@ export class PostsController {
   }
 
   @ApiOperation({
-    summary: 'Create a new blog post'
+    summary: 'Create a new blog post',
   })
   @ApiResponse({
     status: 201,
-    description: "If you got 201 response, your post is created"
+    description: 'If you got 201 response, your post is created',
   })
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
     console.log(createPostDto);
+  }
+
+  @ApiOperation({
+    summary: 'Update an existing blog post',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'If you got 200 response, your post is updated',
+  })
+  @Patch()
+  public updatePost(@Body() patchPostDto: PatchPostDto) {
+    console.log(patchPostDto);
   }
 }
