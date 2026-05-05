@@ -2,6 +2,9 @@ import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create.user.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { PutUserDto } from '../dtos/put.user.dto';
+import { Repository } from 'typeorm';
+import { User } from '../user.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 /**
  * Class to connect with Users table and make business operations
@@ -15,6 +18,8 @@ export class UsersService {
   constructor(
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
+    @InjectRepository(User)
+    private userRepository: Repository<User>,
   ) {}
 
   /**
@@ -41,8 +46,18 @@ export class UsersService {
    * @param createUserDto
    * @returns
    */
-  public createUser(createUserDto: CreateUserDto) {
-    return `${createUserDto.firstName}'s user account is created`;
+  public async createUser(createUserDto: CreateUserDto) {
+    // email exist or not
+    const existingUser = await this.userRepository.findOne({
+      where: { email: createUserDto.email },
+    });
+    // handle flow
+
+    // create new user
+    let newUser = this.userRepository.create(createUserDto);
+    newUser = await this.userRepository.save(newUser);
+
+    return newUser;
   }
 
   /**

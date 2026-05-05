@@ -23,7 +23,7 @@ export class CreateUserDto {
 
   @IsEmail()
   @IsNotEmpty()
-  @MaxLength(20)
+  @MaxLength(96)
   email!: string;
 
   @IsString()
