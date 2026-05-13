@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
 import { TagsModule } from './tags/tags.module';
+import { PostMetaModule } from './post-meta/post-meta.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { TagsModule } from './tags/tags.module';
       database: 'nest-app',
     }),
     TagsModule,
+    PostMetaModule,
   ],
   controllers: [AppController],
   providers: [AppService],
