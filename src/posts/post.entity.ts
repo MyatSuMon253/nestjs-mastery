@@ -1,6 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 import { PostStatus } from './enums/postStatus.enum';
 import { PostsService } from './providers/posts.service';
+import { Tag } from 'src/tags/tag.entity';
 
 @Entity()
 export class Post {
@@ -47,5 +48,5 @@ export class Post {
   })
   publishOn?: string;
 
-  tags?: string[];
+  tags?: Tag[];
 }
