@@ -16,6 +16,7 @@ import { TagsModule } from './tags/tags.module';
     AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
+      autoLoadEntities: true,
       entities: [User, Post],
       synchronize: true,
       port: 5432,
