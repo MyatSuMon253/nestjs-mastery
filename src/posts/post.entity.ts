@@ -30,7 +30,7 @@ export class Post {
 
   @Column({
     type: 'enum',
-    enum: PostsService,
+    enum: PostStatus,
     default: PostStatus.DRAFT,
     nullable: false,
   })
