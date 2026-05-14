@@ -1,7 +1,10 @@
+import { Post } from 'src/posts/post.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -23,4 +26,8 @@ export class PostMeta {
 
   @UpdateDateColumn()
   updateDate?: Date;
+
+  @OneToOne(() => Post, (post) => post.meta, { onDelete: 'CASCADE' })
+  @JoinColumn()
+  post!: Post;
 }

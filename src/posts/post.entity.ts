@@ -57,7 +57,9 @@ export class Post {
 
   tags?: Tag[];
 
-  @OneToOne(() => PostMeta, { cascade: true, eager: true })
-  @JoinColumn()
+  @OneToOne(() => PostMeta, (postMeta) => postMeta.post, {
+    cascade: true,
+    eager: true,
+  })
   meta!: PostMeta;
 }
