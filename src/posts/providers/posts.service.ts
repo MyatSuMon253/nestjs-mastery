@@ -35,4 +35,10 @@ export class PostsService {
       { title: 'Title 2', content: 'Content 2', user },
     ];
   }
+
+  /** delete a post by id */
+  public async delete(id: number) {
+    await this.postsRepository.delete(id);
+    return { message: 'Post deleted successfully', id };
+  }
 }
