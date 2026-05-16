@@ -2,15 +2,15 @@ POST http://localhost:3000/posts
 Content-Type: application/json
 
 {
-    "title":"test title 2",
-    "content":"test content 2",
-    "slug":"test-title-2",
+    "title":"test title 3",
+    "content":"test content 3",
+    "slug":"test-title-3",
     "status" : "draft",
     "tags" : [{"label":"ai"}, {"label":"test"}],
     "featureImgUrl" : "https://codehubmm.com/images/logo.png",
     "publishOn" : "2026-04-29T14:30:00.000Z",
     "meta" : {
         "readTime" : "2 min read"
-    }
-    // "authorId" : 1
+    },
+    "authorId" : 1
 }

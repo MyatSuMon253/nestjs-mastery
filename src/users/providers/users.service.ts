@@ -65,12 +65,8 @@ export class UsersService {
    * @param createUserDto
    * @returns
    */
-  public findByUserId(userId: string) {
-    return {
-      id: userId,
-      name: 'myat',
-      email: 'myat@gmail.com',
-    };
+  public async findByUserId(userId: number) {
+    return await this.userRepository.findOneBy({ id: userId });
   }
 
   /**

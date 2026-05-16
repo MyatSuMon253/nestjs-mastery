@@ -57,7 +57,7 @@ export class UsersController {
   })
   @Get(':id')
   getUser(@Param() getUserDto: GetUserDto) {
-    return this.usersService.findByUserId(getUserDto.id.toString());
+    return this.usersService.findByUserId(getUserDto.id);
   }
 
   @Post()

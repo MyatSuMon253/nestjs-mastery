@@ -4,19 +4,20 @@ import { UsersService } from 'src/users/providers/users.service';
 @Injectable()
 export class AuthService {
   constructor(
-    @Inject(forwardRef(()=> UsersService))
-    private readonly usersService: UsersService) {}
+    @Inject(forwardRef(() => UsersService))
+    private readonly usersService: UsersService,
+  ) {}
 
-  public login(email: string, password: string, id: string) {
+  public login(email: string, password: string, id: number) {
     // check user exist
-    const user = this.usersService.findByUserId(id)
+    const user = this.usersService.findByUserId(id);
     // login
 
     // token
-    return 'TOKEN'
+    return 'TOKEN';
   }
 
   public isAuth() {
-    return true
+    return true;
   }
 }

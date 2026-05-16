@@ -25,7 +25,7 @@ export class PostsController {
     description: "Users' posts fetched successfully",
   })
   @Get('/:userId')
-  public getPostByUserId(@Param('userId') userId: string) {
+  public getPostByUserId(@Param('userId', ParseIntPipe) userId: number) {
     return this.postsService.findAllByUserId(userId);
   }
 
