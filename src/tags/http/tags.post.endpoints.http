@@ -1,0 +1,7 @@
+POST http://localhost:3000/tags
+Content-Type: application/json
+
+{
+    "label": "nestjs",
+    "description": "A progressive Node.js framework for building efficient and scalable server-side applications."
+}
