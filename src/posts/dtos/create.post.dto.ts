@@ -13,7 +13,6 @@ import {
 } from 'class-validator';
 import { PostStatus } from '../enums/postStatus.enum';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { CreateTagDto } from 'src/tags/dtos/create.tag.dto';
 import { Type } from 'class-transformer';
 import { CreatePostMetaDto } from 'src/post-meta/dtos/create.post-meta.dto';
 
@@ -72,14 +71,13 @@ export class CreatePostDto {
   publishOn?: string;
 
   @ApiPropertyOptional({
-    description: 'Array of tags for blog post',
-    type: [CreateTagDto],
+    description: 'Array of tag ids for blog post',
+    example: [1, 2, 3],
   })
   @IsOptional()
   @IsArray()
-  @ValidateNested({ each: true })
-  @Type(() => CreateTagDto)
-  tags?: CreateTagDto[];
+  @IsInt({ each: true })
+  tags?: number[];
 
   /** Required post meta (eg. readTime) */
   @ApiProperty({

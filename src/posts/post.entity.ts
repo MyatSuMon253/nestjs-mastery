@@ -1,13 +1,13 @@
 import {
   Column,
   Entity,
-  JoinColumn,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { PostStatus } from './enums/postStatus.enum';
-import { PostsService } from './providers/posts.service';
 import { Tag } from 'src/tags/tag.entity';
 import { PostMeta } from 'src/post-meta/post-meta.entity';
 import { User } from 'src/users/user.entity';
@@ -57,6 +57,8 @@ export class Post {
   })
   publishOn?: string;
 
+  @ManyToMany(() => Tag)
+  @JoinTable()
   tags?: Tag[];
 
   @OneToOne(() => PostMeta, (postMeta) => postMeta.post, {
@@ -65,6 +67,6 @@ export class Post {
   })
   meta!: PostMeta;
 
-  @ManyToOne(()=> User, (user)=> user.posts)
+  @ManyToOne(() => User, (user) => user.posts)
   author!: User;
 }
