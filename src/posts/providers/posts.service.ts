@@ -62,7 +62,10 @@ export class PostsService {
     post.status = patchPostDto.status ?? post.status;
     post.publishOn = patchPostDto.publishOn ?? post.publishOn;
 
-    // need to add meta update logic here if needed
+    if (patchPostDto.meta) {
+      post.meta.readTime = patchPostDto.meta.readTime ?? post.meta.readTime;
+    }
+
     post.tags = tags;
 
     post = await this.postsRepository.save(post);
