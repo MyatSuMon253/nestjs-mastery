@@ -5,6 +5,7 @@ import { Post } from '../post.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreatePostDto } from '../dtos/create.post.dto';
 import { TagsService } from 'src/tags/providers/tags.service';
+import { PatchPostDto } from '../dtos/patch.post.dto';
 
 @Injectable()
 export class PostsService {
@@ -34,6 +35,35 @@ export class PostsService {
       author,
       tags,
     });
+
+    post = await this.postsRepository.save(post);
+    return post;
+  }
+
+  /** update existing blog by id */
+  public async update(patchPostDto: PatchPostDto) {
+    let tags = await this.tagsService.findMultiTags(patchPostDto.tags!);
+    if (!tags) {
+      throw new Error('Tags not found');
+    }
+
+    let post = await this.postsRepository.findOneBy({
+      id: patchPostDto.id,
+    });
+
+    if (!post) {
+      throw new Error('Post not found');
+    }
+
+    post.title = patchPostDto.title ?? post.title;
+    post.content = patchPostDto.content ?? post.content;
+    post.featureImgUrl = patchPostDto.featureImgUrl ?? post.featureImgUrl;
+    post.slug = patchPostDto.slug ?? post.slug;
+    post.status = patchPostDto.status ?? post.status;
+    post.publishOn = patchPostDto.publishOn ?? post.publishOn;
+
+    // need to add meta update logic here if needed
+    post.tags = tags;
 
     post = await this.postsRepository.save(post);
     return post;

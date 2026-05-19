@@ -1,0 +1,17 @@
+PATCH http://localhost:3000/posts
+Content-Type: application/json
+
+{
+    "id": 4,
+    "title":"test title 4 updated",
+    "content":"test content 4 updated",
+    "slug":"test-title-4-updated",
+    "status" : "draft",
+    "tags" : [2],
+    "featureImgUrl" : "https://codehubmm.com/images/logo.png",
+    "publishOn" : "2026-04-29T14:30:00.000Z",
+    "meta" : {
+        "readTime" : "2 min read"
+    },
+    "authorId" : 1
+}
