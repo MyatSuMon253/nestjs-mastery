@@ -9,25 +9,34 @@ import { User } from './users/user.entity';
 import { Post } from './posts/post.entity';
 import { TagsModule } from './tags/tags.module';
 import { PostMetaModule } from './post-meta/post-meta.module';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+
+const ENV = process.env.NODE_ENV; // development
 
 @Module({
   imports: [
     UsersModule,
     PostsModule,
     AuthModule,
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      autoLoadEntities: true,
-      entities: [User, Post],
-      synchronize: true,
-      port: 5432,
-      username: '',
-      password: '',
-      host: 'localhost',
-      database: 'nest-app',
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        autoLoadEntities: true,
+        entities: [User, Post],
+        synchronize: true,
+        host: configService.get('DATABASE_HOST'),
+        port: configService.get('DATABASE_PORT'),
+        database: configService.get('DATABASE_NAME'),
+      }),
     }),
     TagsModule,
     PostMetaModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+    }),
   ],
   controllers: [AppController],
   providers: [AppService],
