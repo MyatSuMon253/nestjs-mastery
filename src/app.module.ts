@@ -11,6 +11,7 @@ import { TagsModule } from './tags/tags.module';
 import { PostMetaModule } from './post-meta/post-meta.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import databaseConfig from './config/database.config';
+import envValidation from './config/env.validation';
 
 const ENV = process.env.NODE_ENV; // development
 
@@ -39,6 +40,7 @@ const ENV = process.env.NODE_ENV; // development
       isGlobal: true,
       envFilePath: !ENV ? '.env' : `.env.${ENV}`,
       load: [databaseConfig],
+      validationSchema: envValidation,
     }),
   ],
   controllers: [AppController],

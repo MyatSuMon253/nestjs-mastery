@@ -1,0 +1,18 @@
+import Joi from 'joi';
+
+export default Joi.object({
+  NODE_ENV: Joi.string()
+    .valid('development', 'test', 'production')
+    .default('development'),
+  AUTH_KEY: Joi.string().required(),
+  DATABASE_HOST: Joi.string().required(),
+  DATABASE_PORT: Joi.number().port().default(5432),
+  DATABASE_USERNAME: Joi.string().required(),
+  DATABASE_PASSWORD: Joi.string().required(),
+  DATABASE_NAME: Joi.string().required().default('nest-app'),
+  DATABASE_AUTOLOAD: Joi.boolean().optional(),
+  DATABASE_SYNC: Joi.boolean().optional(),
+  AUTH_FALLBACK_URL: Joi.string()
+    .required()
+    .default('development-fallback-url'),
+});
