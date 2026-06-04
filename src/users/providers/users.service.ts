@@ -5,7 +5,8 @@ import { PutUserDto } from '../dtos/put.user.dto';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ConfigService } from '@nestjs/config';
+import authConfig from 'src/config/auth.config';
+import * as config from '@nestjs/config';
 
 /**
  * Class to connect with Users table and make business operations
@@ -20,7 +21,11 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
 
-    private readonly configService: ConfigService,
+    private readonly configService: config.ConfigService,
+
+    @Inject(authConfig.KEY)
+    private readonly authConfiguration: config.ConfigType<typeof authConfig>,
+
     @InjectRepository(User)
     private userRepository: Repository<User>,
   ) {}
@@ -37,6 +42,7 @@ export class UsersService {
     const env = this.configService.get('AUTH_KEY');
 
     console.log('env', env);
+    console.log(this.authConfiguration.fallbackUrl)
 
     return [
       { name: 'kyaw kyaw', email: 'kyawkyaw@gmail.com' },
