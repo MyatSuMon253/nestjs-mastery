@@ -10,6 +10,7 @@ import { Post } from './posts/post.entity';
 import { TagsModule } from './tags/tags.module';
 import { PostMetaModule } from './post-meta/post-meta.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import databaseConfig from './config/database.config';
 
 const ENV = process.env.NODE_ENV; // development
 
@@ -23,12 +24,13 @@ const ENV = process.env.NODE_ENV; // development
       inject: [ConfigService],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
-        autoLoadEntities: true,
-        entities: [User, Post],
-        synchronize: true,
-        host: configService.get('DATABASE_HOST'),
-        port: configService.get('DATABASE_PORT'),
-        database: configService.get('DATABASE_NAME'),
+        autoLoadEntities: configService.get('database.autoLoadEntities'),
+        synchronize: configService.get('database.synchronize'),
+        host: configService.get('database.host'),
+        port: configService.get('database.port'),
+        database: configService.get('database.name'),
+        username: configService.get('database.username'),
+        password: configService.get('database.password'),
       }),
     }),
     TagsModule,
@@ -36,6 +38,7 @@ const ENV = process.env.NODE_ENV; // development
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      load: [databaseConfig],
     }),
   ],
   controllers: [AppController],
