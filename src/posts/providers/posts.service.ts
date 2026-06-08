@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { ResourceNotFoundException } from 'src/common/exceptions';
 import { UsersService } from 'src/users/providers/users.service';
 import { Repository } from 'typeorm';
 import { Post } from '../post.entity';
@@ -22,12 +23,12 @@ export class PostsService {
   public async create(createPostDto: CreatePostDto) {
     let author = await this.usersService.findByUserId(createPostDto.authorId);
     if (!author) {
-      throw new Error('Author not found');
+      throw new ResourceNotFoundException('Author', createPostDto.authorId);
     }
 
     let tags = await this.tagsService.findMultiTags(createPostDto.tags!);
     if (!tags) {
-      throw new Error('Tags not found');
+      throw new ResourceNotFoundException('Tags');
     }
 
     let post = this.postsRepository.create({
@@ -44,7 +45,7 @@ export class PostsService {
   public async update(patchPostDto: PatchPostDto) {
     let tags = await this.tagsService.findMultiTags(patchPostDto.tags!);
     if (!tags) {
-      throw new Error('Tags not found');
+      throw new ResourceNotFoundException('Tags');
     }
 
     let post = await this.postsRepository.findOneBy({
@@ -52,7 +53,7 @@ export class PostsService {
     });
 
     if (!post) {
-      throw new Error('Post not found');
+      throw new ResourceNotFoundException('Post', patchPostDto.id);
     }
 
     post.title = patchPostDto.title ?? post.title;

@@ -1,4 +1,9 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  DatabaseException,
+  ResourceConflictException,
+  ResourceNotFoundException,
+} from 'src/common/exceptions';
 import { CreateUserDto } from '../dtos/create.user.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
 import { PutUserDto } from '../dtos/put.user.dto';
@@ -42,7 +47,7 @@ export class UsersService {
     const env = this.configService.get('AUTH_KEY');
 
     console.log('env', env);
-    console.log(this.authConfiguration.fallbackUrl)
+    console.log(this.authConfiguration.fallbackUrl);
 
     return [
       { name: 'kyaw kyaw', email: 'kyawkyaw@gmail.com' },
@@ -59,14 +64,28 @@ export class UsersService {
    */
   public async createUser(createUserDto: CreateUserDto) {
     // email exist or not
-    const existingUser = await this.userRepository.findOne({
-      where: { email: createUserDto.email },
-    });
+    let existingUser: User | null;
+
+    try {
+      existingUser = await this.userRepository.findOne({
+        where: { email: createUserDto.email },
+      });
+    } catch (error) {
+      throw new DatabaseException();
+    }
     // handle flow
+    if (existingUser) {
+      throw new ResourceConflictException('User', 'email', createUserDto.email);
+    }
 
     // create new user
     let newUser = this.userRepository.create(createUserDto);
-    newUser = await this.userRepository.save(newUser);
+
+    try {
+      newUser = await this.userRepository.save(newUser);
+    } catch (error) {
+      throw new DatabaseException();
+    }
 
     return newUser;
   }
@@ -77,7 +96,18 @@ export class UsersService {
    * @returns
    */
   public async findByUserId(userId: number) {
-    return await this.userRepository.findOneBy({ id: userId });
+    let user;
+
+    try {
+      user = await this.userRepository.findOneBy({ id: userId });
+    } catch (error) {
+      throw new DatabaseException();
+    }
+
+    if (!user) {
+      throw new ResourceNotFoundException('User', userId);
+    }
+    return user;
   }
 
   /**
