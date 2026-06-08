@@ -12,6 +12,7 @@ import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import authConfig from 'src/config/auth.config';
 import * as config from '@nestjs/config';
+import { UsersCreateManyProvider } from './users-create-many.provider.ts';
 
 /**
  * Class to connect with Users table and make business operations
@@ -33,6 +34,8 @@ export class UsersService {
 
     @InjectRepository(User)
     private userRepository: Repository<User>,
+
+    private readonly usersCreateManyProvider: UsersCreateManyProvider,
   ) {}
 
   /**
@@ -117,5 +120,9 @@ export class UsersService {
    */
   public updateUser(putUserDto: PutUserDto) {
     return putUserDto;
+  }
+
+  public async createMany(createUsersDto: CreateUserDto[]) {
+    return await this.usersCreateManyProvider.createMany(createUsersDto);
   }
 }
