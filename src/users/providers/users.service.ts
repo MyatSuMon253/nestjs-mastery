@@ -1,7 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import {
   DatabaseException,
-  ResourceConflictException,
   ResourceNotFoundException,
 } from 'src/common/exceptions';
 import { CreateUserDto } from '../dtos/create.user.dto';
@@ -13,6 +12,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import authConfig from 'src/config/auth.config';
 import * as config from '@nestjs/config';
 import { UsersCreateManyProvider } from './users-create-many.provider.ts';
+import { CreateUserProvider } from './create-user.provider';
 
 /**
  * Class to connect with Users table and make business operations
@@ -33,9 +33,11 @@ export class UsersService {
     private readonly authConfiguration: config.ConfigType<typeof authConfig>,
 
     @InjectRepository(User)
-    private userRepository: Repository<User>,
+    private usersRepository: Repository<User>,
 
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
+    private readonly createUserProvider: CreateUserProvider,
   ) {}
 
   /**
@@ -66,31 +68,7 @@ export class UsersService {
    * @returns
    */
   public async createUser(createUserDto: CreateUserDto) {
-    // email exist or not
-    let existingUser: User | null;
-
-    try {
-      existingUser = await this.userRepository.findOne({
-        where: { email: createUserDto.email },
-      });
-    } catch (error) {
-      throw new DatabaseException();
-    }
-    // handle flow
-    if (existingUser) {
-      throw new ResourceConflictException('User', 'email', createUserDto.email);
-    }
-
-    // create new user
-    let newUser = this.userRepository.create(createUserDto);
-
-    try {
-      newUser = await this.userRepository.save(newUser);
-    } catch (error) {
-      throw new DatabaseException();
-    }
-
-    return newUser;
+    return this.createUserProvider.createUser(createUserDto);
   }
 
   /**
@@ -102,7 +80,7 @@ export class UsersService {
     let user;
 
     try {
-      user = await this.userRepository.findOneBy({ id: userId });
+      user = await this.usersRepository.findOneBy({ id: userId });
     } catch (error) {
       throw new DatabaseException();
     }
