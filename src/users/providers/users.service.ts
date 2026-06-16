@@ -13,6 +13,7 @@ import authConfig from 'src/config/auth.config';
 import * as config from '@nestjs/config';
 import { UsersCreateManyProvider } from './users-create-many.provider.ts';
 import { CreateUserProvider } from './create-user.provider';
+import { FindByUserEmailProvider } from './find-by-user-email.provider';
 
 /**
  * Class to connect with Users table and make business operations
@@ -38,6 +39,8 @@ export class UsersService {
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
 
     private readonly createUserProvider: CreateUserProvider,
+
+    private readonly findByUserEmailProvider: FindByUserEmailProvider,
   ) {}
 
   /**
@@ -102,5 +105,9 @@ export class UsersService {
 
   public async createMany(createUsersDto: CreateUserDto[]) {
     return await this.usersCreateManyProvider.createMany(createUsersDto);
+  }
+
+  public async findUserByEmail(email: string) {
+    return await this.findByUserEmailProvider.findByEmail(email);
   }
 }
