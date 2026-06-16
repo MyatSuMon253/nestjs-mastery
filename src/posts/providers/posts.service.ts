@@ -79,10 +79,17 @@ export class PostsService {
 
   /** return all posts */
   public async findAll(postQuery: GetPostsDto) {
-    const posts = this.paginationProvider.paginateQuery(
-      postQuery,
-      this.postsRepository,
-    );
+    let posts;
+
+    if (postQuery.limit || postQuery.page) {
+      posts = this.paginationProvider.paginateQuery(
+        postQuery,
+        this.postsRepository,
+      );
+    } else {
+      posts = this.postsRepository.find();
+    }
+
     return posts;
   }
 
