@@ -7,11 +7,13 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { PostsService } from './providers/posts.service';
 import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create.post.dto';
 import { PatchPostDto } from './dtos/patch.post.dto';
+import { GetPostsDto } from './dtos/get-posts.dto';
 
 @Controller('posts')
 export class PostsController {
@@ -31,8 +33,9 @@ export class PostsController {
 
   /** return all posts */
   @Get('/')
-  public getAllPosts() {
-    return this.postsService.findAll();
+  public getAllPosts(@Query() postQuery: GetPostsDto) {
+    console.log(postQuery);
+    return this.postsService.findAll(postQuery);
   }
 
   @ApiOperation({

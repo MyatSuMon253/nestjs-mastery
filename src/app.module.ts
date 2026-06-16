@@ -10,6 +10,7 @@ import { Post } from './posts/post.entity';
 import { TagsModule } from './tags/tags.module';
 import { PostMetaModule } from './post-meta/post-meta.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PaginationModule } from './common/pagination/pagination.module';
 import databaseConfig from './config/database.config';
 import envValidation from './config/env.validation';
 
@@ -42,6 +43,7 @@ const ENV = process.env.NODE_ENV; // development
       load: [databaseConfig],
       validationSchema: envValidation,
     }),
+    PaginationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
