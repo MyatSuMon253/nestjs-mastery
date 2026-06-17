@@ -14,6 +14,8 @@ import { GetUserDto } from './dtos/get.user.dto';
 import { PutUserDto } from './dtos/put.user.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 
 @Controller('users')
 export class UsersController {
@@ -61,6 +63,7 @@ export class UsersController {
   }
 
   @Post()
+  @Auth(AuthType.None)
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
