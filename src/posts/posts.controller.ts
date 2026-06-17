@@ -14,6 +14,7 @@ import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreatePostDto } from './dtos/create.post.dto';
 import { PatchPostDto } from './dtos/patch.post.dto';
 import { GetPostsDto } from './dtos/get-posts.dto';
+import { User } from 'src/auth/decorators/user.decorator';
 
 @Controller('posts')
 export class PostsController {
@@ -46,8 +47,8 @@ export class PostsController {
     description: 'If you got 201 response, your post is created',
   })
   @Post()
-  public createPost(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.create(createPostDto);
+  public createPost(@User() user) {
+    console.log(user);
   }
 
   @ApiOperation({
