@@ -10,9 +10,15 @@ export default Joi.object({
   DATABASE_USERNAME: Joi.string().required(),
   DATABASE_PASSWORD: Joi.string().required(),
   DATABASE_NAME: Joi.string().required().default('nest-app'),
+
   DATABASE_AUTOLOAD: Joi.boolean().optional(),
   DATABASE_SYNC: Joi.boolean().optional(),
   AUTH_FALLBACK_URL: Joi.string()
     .required()
     .default('development-fallback-url'),
+
+  JWT_SECRET: Joi.string().required,
+  JWT_TOKEN_AUDIENCE: Joi.string().required,
+  JWT_TOKEN_ISSUER: Joi.string().required,
+  JWT_ACCESS_TOKEN_TTL: Joi.number().required,
 });

@@ -9,8 +9,6 @@ import authConfig from 'src/config/auth.config';
 import { UsersCreateManyProvider } from './providers/users-create-many.provider.ts';
 import { CreateUserProvider } from './providers/create-user.provider';
 import { FindByUserEmailProvider } from './providers/find-by-user-email.provider';
-import jwtConfig from 'src/auth/config/jwt.config';
-import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   controllers: [UsersController],
@@ -25,8 +23,6 @@ import { JwtModule } from '@nestjs/jwt';
     forwardRef(() => AuthModule),
     TypeOrmModule.forFeature([User]),
     ConfigModule.forFeature(authConfig),
-    ConfigModule.forFeature(jwtConfig),
-    JwtModule.registerAsync(jwtConfig.asProvider()),
   ],
 })
 export class UsersModule {}

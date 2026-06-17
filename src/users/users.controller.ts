@@ -8,14 +8,12 @@ import {
   Post,
   Put,
   Query,
-  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create.user.dto';
 import { GetUserDto } from './dtos/get.user.dto';
 import { PutUserDto } from './dtos/put.user.dto';
 import { UsersService } from './providers/users.service';
 import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { AccessTokenGuard } from 'src/auth/guards/access-token/access-token.guard';
 
 @Controller('users')
 export class UsersController {
@@ -63,7 +61,6 @@ export class UsersController {
   }
 
   @Post()
-  @UseGuards(AccessTokenGuard)
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
