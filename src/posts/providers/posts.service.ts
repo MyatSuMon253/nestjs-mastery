@@ -9,6 +9,8 @@ import { TagsService } from 'src/tags/providers/tags.service';
 import { PatchPostDto } from '../dtos/patch.post.dto';
 import { GetPostsDto } from '../dtos/get-posts.dto';
 import { PaginationProvider } from 'src/common/pagination/provider/pagination.provider';
+import { CreatePostProvider } from './create-post.provider';
+import { UserData } from 'src/auth/interfaces/user-data.interface';
 
 @Injectable()
 export class PostsService {
@@ -19,30 +21,15 @@ export class PostsService {
     private readonly tagsService: TagsService,
     /**inject paginationProvider */
     private readonly paginationProvider: PaginationProvider,
+
+    private readonly createPostProvider: CreatePostProvider,
     /** inject posts repository */
     @InjectRepository(Post)
     private readonly postsRepository: Repository<Post>,
   ) {}
 
-  public async create(createPostDto: CreatePostDto) {
-    let author = await this.usersService.findByUserId(createPostDto.authorId);
-    if (!author) {
-      throw new ResourceNotFoundException('Author', createPostDto.authorId);
-    }
-
-    let tags = await this.tagsService.findMultiTags(createPostDto.tags!);
-    if (!tags) {
-      throw new ResourceNotFoundException('Tags');
-    }
-
-    let post = this.postsRepository.create({
-      ...createPostDto,
-      author,
-      tags,
-    });
-
-    post = await this.postsRepository.save(post);
-    return post;
+  public async create(createPostDto: CreatePostDto, userData: UserData) {
+    return await this.createPostProvider.create(createPostDto, userData);
   }
 
   /** update existing blog by id */

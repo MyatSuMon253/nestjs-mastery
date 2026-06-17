@@ -88,13 +88,4 @@ export class CreatePostDto {
   @Type(() => CreatePostMetaDto)
   @IsNotEmpty()
   meta!: CreatePostMetaDto;
-
-  /** Required author id for the post */
-  @ApiProperty({
-    description: 'Author id for the post',
-    example: 1,
-  })
-  @IsInt()
-  @IsNotEmpty()
-  authorId!: number;
 }
