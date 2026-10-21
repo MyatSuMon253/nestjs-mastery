@@ -14,6 +14,9 @@ import * as config from '@nestjs/config';
 import { UsersCreateManyProvider } from './users-create-many.provider.ts';
 import { CreateUserProvider } from './create-user.provider';
 import { FindByUserEmailProvider } from './find-by-user-email.provider';
+import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './create-google-user.provider';
+import { GoogleUser } from '../interfaces/google-user.interface';
 
 /**
  * Class to connect with Users table and make business operations
@@ -41,6 +44,10 @@ export class UsersService {
     private readonly createUserProvider: CreateUserProvider,
 
     private readonly findByUserEmailProvider: FindByUserEmailProvider,
+
+    private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+
+    private readonly createGoogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
   /**
@@ -110,5 +117,13 @@ export class UsersService {
 
   public async findUserByEmail(email: string) {
     return await this.findByUserEmailProvider.findByEmail(email);
+  }
+
+  public async findOneByGoogleId(googleId: string) {
+    return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
+
+  public async createGoogleUser(googleUser: GoogleUser) {
+    return await this.createGoogleUserProvider.createGoogleUser(googleUser);
   }
 }

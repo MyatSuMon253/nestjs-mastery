@@ -9,6 +9,8 @@ import authConfig from 'src/config/auth.config';
 import { UsersCreateManyProvider } from './providers/users-create-many.provider.ts';
 import { CreateUserProvider } from './providers/create-user.provider';
 import { FindByUserEmailProvider } from './providers/find-by-user-email.provider';
+import { FindOneByGoogleIdProvider } from './providers/find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './providers/create-google-user.provider';
 
 @Module({
   controllers: [UsersController],
@@ -17,6 +19,8 @@ import { FindByUserEmailProvider } from './providers/find-by-user-email.provider
     UsersCreateManyProvider,
     CreateUserProvider,
     FindByUserEmailProvider,
+    FindOneByGoogleIdProvider,
+    CreateGoogleUserProvider,
   ],
   exports: [UsersService],
   imports: [
