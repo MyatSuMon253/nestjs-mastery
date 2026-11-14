@@ -1,0 +1,11 @@
+POST http://localhost:3333/uploads/file
+Content-Type: multipart/form-data; boundary=WebKitFormBoundary
+Authorization: Bearer 
+
+file 
+--WebKitFormBoundary
+Content-Disposition: form-data; name="file"; filename="test.jpg"
+Content-Type: image/jpg 
+
+< ./test.jpg
+--WebKitFormBoundary--
