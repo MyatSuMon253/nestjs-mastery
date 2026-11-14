@@ -18,6 +18,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { DataResponseInterceptor } from './common/interceptors/data-response/data-response.interceptor';
 import { UploadsModule } from './uploads/uploads.module';
+import { MailModule } from './mail/mail.module';
 import appConfig from './config/app.config';
 
 const ENV = process.env.NODE_ENV ?? 'development';
@@ -53,6 +54,7 @@ const ENV = process.env.NODE_ENV ?? 'development';
     ConfigModule.forFeature(jwtConfig),
     JwtModule.registerAsync(jwtConfig.asProvider()),
     UploadsModule,
+    MailModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,4 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dtos/create.user.dto';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
@@ -8,6 +13,7 @@ import {
   ResourceConflictException,
 } from 'src/common/exceptions';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { MailService } from 'src/mail/providers/mail.service';
 
 @Injectable()
 export class CreateUserProvider {
@@ -17,6 +23,8 @@ export class CreateUserProvider {
 
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
+
+    private readonly mailService: MailService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDto) {
@@ -45,7 +53,16 @@ export class CreateUserProvider {
     try {
       newUser = await this.usersRepository.save(newUser);
     } catch (error) {
-      throw new DatabaseException();
+      throw new RequestTimeoutException(
+        'Cannot process your request this time',
+        { description: 'Error when connecting to database' },
+      );
+    }
+
+    try {
+      await this.mailService.sendWelcomeMail(newUser);
+    } catch (error) {
+      throw new RequestTimeoutException(error);
     }
 
     return newUser;
